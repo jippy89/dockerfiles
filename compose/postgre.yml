@@ -2,6 +2,7 @@
 # docker compose -f postgre.yml up
 
 version: "3.8"
+name: postgre_pg-admin
 services:
   db:
     container_name: postgres_container
@@ -10,9 +11,12 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+      POSTGRES_DB: my_db # Don't forget to change this
     ports:
       - "5432:5432"
+    networks:
+      - database-network
+    
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -22,3 +26,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    networks:
+      - database-network
+
+networks:
+  database-network:
